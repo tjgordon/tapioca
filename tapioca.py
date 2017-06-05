@@ -194,12 +194,15 @@ def rclick():
     elif right_click_method == "pymouse":
         mouse.click(mouse.position()[0], mouse.position()[1], 2)
 
+def dummy(time):
+    pass
+
 for event in device.read_loop():
     # print(evdev.util.categorize(event))
     if event.code == 330 and event.value == 1:
         touch_time = Decimal(str(event.sec) + "." + str(event.usec))
         # print touch_time
-        t = Timer(minimum_long_press_time, lp, [touch_time])
+        t = Timer(minimum_long_press_time, dummy, [touch_time])
         t.daemon = True
         t.start()
 
@@ -224,7 +227,7 @@ for event in device.read_loop():
     if event.code == 57 and event.value > -1:
         abs_touch_time = Decimal(str(event.sec) + "." + str(event.usec))
         # print abs_touch_time
-        t = Timer(minimum_long_press_time, lp, [abs_touch_time])
+        t = Timer(minimum_long_press_time, dummy, [abs_touch_time])
         t.daemon = True
         t.start()
 
@@ -260,4 +263,4 @@ for event in device.read_loop():
         if event.code == 330 and event.value == 0:
             if finger0_time == finger1_time:
                 print "Two finger tap"
-                u = subprocess.Popen(["xdotool", "click", "3"])
+                rclick()
