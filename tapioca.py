@@ -54,7 +54,6 @@ default_settings = OrderedDict([
     ('enable_two_finger_tap', 1)
 ])
 
-
 def setconfig():
     try:
         if os.stat(full_config_file_path).st_size > 0:
@@ -182,7 +181,6 @@ device = evdev.InputDevice(input_node)
 # print device.capabilities(verbose=True)
 # print device.active_keys(verbose=True)
 
-
 def rclick():
     if right_click_method == "xdotool":
         # proc = subprocess.Popen("eval $(xdotool getmouselocation --shell) && echo $X $Y", stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell = True ).communicate()
@@ -210,9 +208,6 @@ for event in device.read_loop():
         # print lift_time
     else:
         lift_time = None
-
-    def lp(tt):
-        tt = tt
 
     if event.code == 47 and event.value == 0:
         finger0_time = Decimal(str(event.sec) + "." + str(event.usec))
