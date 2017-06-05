@@ -35,9 +35,11 @@ You can edit settings in `User Settings` in config file. All config options are 
 
 **It is highly recommended that you review config file at least once.**
 
+# Wayland  support?
+
+Not possible as of now.
+
 # Credits
-
-
 
   * All the developers behind Linux kernel, python-evdev, PyUserInput, pymouse, xdotool and xinput.
 
