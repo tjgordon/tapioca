@@ -5,7 +5,7 @@ import subprocess
 from decimal import Decimal
 import time
 import os
-import ConfigParser
+import configparser
 from collections import OrderedDict
 from threading import Timer, Thread
 from pymouse import PyMouse
@@ -22,7 +22,7 @@ app_name = "tapioca"
 config_folder = os.path.join(os.path.expanduser("~"), '.config', app_name)
 config_file = app_name + ".conf"
 full_config_file_path = os.path.join(config_folder, config_file)
-Config = ConfigParser.ConfigParser(allow_no_value=True)
+Config = configparser.ConfigParser(allow_no_value=True)
 
 parser = argparse.ArgumentParser(
     description=app_name + " enables right click on linux touchscreen devices.")
@@ -70,18 +70,18 @@ def setconfig():
             Config.add_section(default_section)
             Config.set(
                 default_section, '; !!!! do not edit, change settings in user section !!!!')
-            for k, v in default_settings.items():
+            for k, v in list(default_settings.items()):
                 if v == None:
-                    Config.set(default_section, k)
+                    Config.set(default_section, str(k))
                 else:
-                    Config.set(default_section, k, v)
+                    Config.set(default_section, str(k), str(v))
             Config.add_section(user_section)
             Config.set(user_section, '; change settings below')
-            for k, v in default_settings.items():
+            for k, v in list(default_settings.items()):
                 if v == None:
-                    Config.set(user_section, k)
+                    Config.set(user_section, str(k))
                 else:
-                    Config.set(user_section, k, v)
+                    Config.set(user_section, str(k), str(v))
             Config.write(f)
 
         if args.device != None:
@@ -170,9 +170,9 @@ for device in devices:
         no_device_found = False
 
 if no_device_found == True:
-    print "No touch input detected."
-    print "Please make sure you have entered correct touch panel name in user settings."
-    print "Quitting in 10 seconds."
+    print("No touch input detected.")
+    print("Please make sure you have entered correct touch panel name in user settings.")
+    print("Quitting in 10 seconds.")
     time.sleep(10)
     quit()
 
@@ -240,7 +240,7 @@ for event in device.read_loop():
     if touch_time != None and lift_time == None and long_press_behavior == "smartphone":
         if t.is_alive() == False and long_press_done == False:
             if enable_long_press == True:
-                print "smartphone long press"
+                print("smartphone long press")
                 rclick()
                 long_press_done = True
                 t.cancel()
@@ -250,7 +250,7 @@ for event in device.read_loop():
         diff = lift_time - touch_time
         # print diff
         if diff >= minimum_long_press_time and long_press_behavior == "pc":
-            print "pc long press"
+            print("pc long press")
             rclick()
 
     if event.code == 330 and event.value == 0:
@@ -262,5 +262,5 @@ for event in device.read_loop():
     if finger0_time != None and finger1_time != None and enable_two_finger_tap == True:
         if event.code == 330 and event.value == 0:
             if finger0_time == finger1_time:
-                print "Two finger tap"
+                print("Two finger tap")
                 rclick()
